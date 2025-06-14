@@ -14,6 +14,7 @@ import {
 import { useContext, useMemo } from "react";
 import { useAuth } from "../../../../context/Auth";
 import { IdeMessengerContext } from "../../../../context/IdeMessenger";
+import { useTranslation } from "../../../../i18n/I18nContext";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import {
   setDialogMessage,
@@ -28,6 +29,7 @@ interface RuleCardProps {
 }
 
 const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const ideMessenger = useContext(IdeMessengerContext);
   const mode = useAppSelector((store) => store.session.mode);
@@ -58,22 +60,22 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
       return rule.name;
     } else {
       if (rule.source === ".continuerules") {
-        return "Project rules";
+        return t("Project rules");
       } else if (rule.source === "default-chat") {
-        return "Default chat system message";
+        return t("Default chat system message");
       } else if (rule.source === "default-agent") {
-        return "Default agent system message";
+        return t("Default agent system message");
       } else if (rule.source === "json-systemMessage") {
-        return "JSON systemMessage)";
+        return t("JSON systemMessage");
       } else if (rule.source === "model-agent-options") {
-        return "Base System Agent Message";
+        return t("Base System Agent Message");
       } else if (rule.source === "model-chat-options") {
-        return "Base System Chat Message";
+        return t("Base System Chat Message");
       } else {
-        return "Assistant rule";
+        return t("Assistant rule");
       }
     }
-  }, [rule]);
+  }, [rule, t]);
 
   function onClickExpand() {
     dispatch(setShowDialog(true));
@@ -102,16 +104,16 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
             {title}
           </span>
           <div className="flex flex-row items-start gap-1">
-            <HeaderButtonWithToolTip onClick={onClickExpand} text="Expand">
+            <HeaderButtonWithToolTip onClick={onClickExpand} text={t("Expand")}>
               <ArrowsPointingOutIcon className="h-3 w-3 text-gray-400" />
             </HeaderButtonWithToolTip>{" "}
             {rule.source === "default-chat" ||
             rule.source === "default-agent" ? (
-              <HeaderButtonWithToolTip onClick={handleOpen} text="View">
+              <HeaderButtonWithToolTip onClick={handleOpen} text={t("View")}>
                 <EyeIcon className="h-3 w-3 text-gray-400" />
               </HeaderButtonWithToolTip>
             ) : (
-              <HeaderButtonWithToolTip onClick={handleOpen} text="Edit">
+              <HeaderButtonWithToolTip onClick={handleOpen} text={t("Edit")}>
                 <PencilIcon className="h-3 w-3 text-gray-400" />
               </HeaderButtonWithToolTip>
             )}
@@ -133,7 +135,7 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
             }}
             className="mt-1.5 flex flex-col gap-1"
           >
-            <span className="italic">Applies to files</span>
+            <span className="italic">{t("Applies to files")}</span>
             <code className="line-clamp-1 px-1 py-0.5 text-gray-400">
               {rule.globs}
             </code>

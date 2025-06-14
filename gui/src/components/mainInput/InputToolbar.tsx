@@ -3,6 +3,7 @@ import { InputModifiers } from "core";
 import { modelSupportsImages, modelSupportsTools } from "core/llm/autodetect";
 import { useContext, useRef } from "react";
 import { IdeMessengerContext } from "../../context/IdeMessenger";
+import { useTranslation } from "../../i18n/I18nContext";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { selectUseActiveFile } from "../../redux/selectors";
 import {
@@ -40,6 +41,7 @@ interface InputToolbarProps {
 }
 
 function InputToolbar(props: InputToolbarProps) {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const ideMessenger = useContext(IdeMessengerContext);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -87,14 +89,14 @@ function InputToolbar(props: InputToolbarProps) {
             <HoverItem data-tooltip-id="mode-select-tooltip" className="!p-0">
               <ModeSelect />
               <ToolTip id="mode-select-tooltip" place="top">
-                Select Mode
+                {t("Select Mode")}
               </ToolTip>
             </HoverItem>
           )}
           <HoverItem data-tooltip-id="model-select-tooltip" className="!p-0">
             <ModelSelect />
             <ToolTip id="model-select-tooltip" place="top">
-              Select Model
+              {t("Select Model")}
             </ToolTip>
           </HoverItem>
           <div className="xs:flex text-description -mb-1 hidden items-center transition-colors duration-200">
@@ -126,7 +128,7 @@ function InputToolbar(props: InputToolbarProps) {
                     />
 
                     <ToolTip id="image-tooltip" place="top">
-                      Attach Image
+                      {t("Attach Image")}
                     </ToolTip>
                   </HoverItem>
                 </>
@@ -139,7 +141,7 @@ function InputToolbar(props: InputToolbarProps) {
                 />
 
                 <ToolTip id="add-context-item-tooltip" place="top">
-                  Attach Context
+                  {t("Attach Context")}
                 </ToolTip>
               </HoverItem>
             )}
@@ -167,12 +169,12 @@ function InputToolbar(props: InputToolbarProps) {
               >
                 <span data-tooltip-id="add-active-file-context-tooltip">
                   {getAltKeyLabel()}⏎{" "}
-                  {useActiveFile ? "No active file" : "Active file"}
+                  {useActiveFile ? t("No active file") : t("Active file")}
                 </span>
                 <ToolTip id="add-active-file-context-tooltip" place="top-end">
                   {useActiveFile
-                    ? "Send Without Active File"
-                    : "Send With Active File"}{" "}
+                    ? t("Send Without Active File")
+                    : t("Send With Active File")}{" "}
                   ({getAltKeyLabel()}⏎)
                 </ToolTip>
               </HoverItem>
@@ -187,7 +189,7 @@ function InputToolbar(props: InputToolbarProps) {
               }}
             >
               <span>
-                <i>Esc</i> to exit Edit
+                <i>Esc</i> {t("to exit Edit")}
               </span>
             </HoverItem>
           )}
@@ -207,11 +209,14 @@ function InputToolbar(props: InputToolbarProps) {
             disabled={isEnterDisabled}
           >
             <span className="hidden md:inline">
-              ⏎ {props.toolbarOptions?.enterText ?? "Enter"}
+              ⏎{" "}
+              {props.toolbarOptions?.enterText
+                ? t(props.toolbarOptions.enterText as any)
+                : t("Enter")}
             </span>
             <span className="md:hidden">⏎</span>
             <ToolTip id="enter-tooltip" place="top">
-              Send (⏎)
+              {t("Send")} (⏎)
             </ToolTip>
           </EnterButton>
         </div>

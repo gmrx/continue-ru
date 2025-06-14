@@ -32,14 +32,15 @@ import { handleImageFile } from "./imageUtils";
 export function getPlaceholderText(
   placeholder: TipTapEditorProps["placeholder"],
   historyLength: number,
+  t: (key: string, fallback?: string) => string,
 ) {
   if (placeholder) {
     return placeholder;
   }
 
   return historyLength === 0
-    ? "Ask anything, '/' for prompts, '@' to add context"
-    : "Ask a follow-up";
+    ? t("Ask anything, '/' for prompts, '@' to add context")
+    : t("Ask a follow-up");
 }
 
 /**
@@ -71,8 +72,9 @@ export function createEditorConfig(options: {
   props: TipTapEditorProps;
   ideMessenger: IIdeMessenger;
   dispatch: AppDispatch;
+  t: (key: string, fallback?: string) => string;
 }) {
-  const { props, ideMessenger, dispatch } = options;
+  const { props, ideMessenger, dispatch, t } = options;
 
   const posthog = usePostHog();
 
@@ -190,6 +192,7 @@ export function createEditorConfig(options: {
         placeholder: getPlaceholderText(
           props.placeholder,
           historyLengthRef.current,
+          t,
         ),
       }),
       Paragraph.extend({

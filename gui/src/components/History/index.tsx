@@ -13,6 +13,7 @@ import Shortcut from "../gui/Shortcut";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 import { IdeMessengerContext } from "../../context/IdeMessenger";
+import { useTranslation } from "../../i18n/I18nContext";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   newSession,
@@ -37,6 +38,7 @@ const HEADER_CLASS =
   "flex user-select-none pt-2 pb-3 opacity-75 text-center font-bold items-center justify-center sticky h-6";
 
 export function History() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const searchInputRef = React.useRef<HTMLInputElement>(null);
@@ -99,8 +101,10 @@ export function History() {
     dispatch(
       setDialogMessage(
         <ConfirmationDialog
-          title={`Clear sessions`}
-          text={`Are you sure you want to permanently delete all chat sessions, including the current chat session?`}
+          title={t("Clear sessions")}
+          text={t(
+            "Are you sure you want to permanently delete all chat sessions, including the current chat session?",
+          )}
           onConfirm={async () => {
             // optimistic update
             dispatch(setAllSessionMetadata([]));
@@ -128,7 +132,7 @@ export function History() {
         <input
           className="bg-vsc-input-background text-vsc-foreground flex-1 rounded-md border border-none py-1 pl-2 pr-8 text-base outline-none focus:outline-none"
           ref={searchInputRef}
-          placeholder="Search past sessions"
+          placeholder={t("Search past sessions")}
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -148,8 +152,10 @@ export function History() {
       <div className="thin-scrollbar flex flex-1 flex-col overflow-y-auto pr-4">
         {filteredAndSortedSessions.length === 0 && (
           <div className="m-3 text-center">
-            No past sessions found. To start a new session, either click the "+"
-            button or use the keyboard shortcut: <Shortcut>meta L</Shortcut>
+            {t(
+              'No past sessions found. To start a new session, either click the "+" button or use the keyboard shortcut:',
+            )}{" "}
+            <Shortcut>meta L</Shortcut>
           </div>
         )}
 
@@ -165,26 +171,26 @@ export function History() {
                 <Fragment key={index}>
                   {index === 0 && date > yesterday && (
                     <tr className={HEADER_CLASS}>
-                      <td colSpan={3}>Today</td>
+                      <td colSpan={3}>{t("Today")}</td>
                     </tr>
                   )}
                   {date < yesterday &&
                     date > lastWeek &&
                     prevDate > yesterday && (
                       <div className={HEADER_CLASS}>
-                        <td colSpan={3}>This Week</td>
+                        <td colSpan={3}>{t("This Week")}</td>
                       </div>
                     )}
                   {date < lastWeek &&
                     date > lastMonth &&
                     prevDate > lastWeek && (
                       <div className={HEADER_CLASS}>
-                        <td colSpan={3}>This Month</td>
+                        <td colSpan={3}>{t("This Month")}</td>
                       </div>
                     )}
                   {date < lastMonth && prevDate > lastMonth && (
                     <div className={HEADER_CLASS}>
-                      <td colSpan={3}>Older</td>
+                      <td colSpan={3}>{t("Older")}</td>
                     </div>
                   )}
 
@@ -203,12 +209,12 @@ export function History() {
         <i
           className=""
           data-testid="history-sessions-note"
-        >{`Data is saved in ${platform === "windows" ? "%USERPROFILE%/.continue" : "~/.continue/sessions"}`}</i>
+        >{`${t("Data is saved in")} ${platform === "windows" ? "%USERPROFILE%/.continue" : "~/.continue/sessions"}`}</i>
         <span
           className="cursor-pointer text-xs text-gray-400 hover:underline"
           onClick={showClearSessionsDialog}
         >
-          Clear session history
+          {t("Clear session history")}
         </span>
       </div>
     </div>

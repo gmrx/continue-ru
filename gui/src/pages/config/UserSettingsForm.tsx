@@ -16,12 +16,14 @@ import ToggleSwitch from "../../components/gui/Switch";
 import { ToolTip } from "../../components/gui/Tooltip";
 import { useFontSize } from "../../components/ui/font";
 import { IdeMessengerContext } from "../../context/IdeMessenger";
+import { useTranslation } from "../../i18n/I18nContext";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { updateConfig } from "../../redux/slices/configSlice";
 import { setLocalStorage } from "../../util/localStorage";
 
 export function UserSettingsForm() {
   /////// User settings section //////
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const ideMessenger = useContext(IdeMessengerContext);
   const config = useAppSelector((state) => state.config.config);
@@ -132,7 +134,7 @@ export function UserSettingsForm() {
       {hubEnabled ? (
         <div className="flex flex-col gap-4 py-4">
           <div>
-            <h2 className="mb-2 mt-0 p-0">User settings</h2>
+            <h2 className="mb-2 mt-0 p-0">{t("User settings")}</h2>
           </div>
 
           <div className="flex flex-col gap-4">
@@ -143,7 +145,7 @@ export function UserSettingsForm() {
                   showSessionTabs: !showSessionTabs,
                 })
               }
-              text="Show Session Tabs"
+              text={t("Show Session Tabs")}
             />
             <ToggleSwitch
               isToggled={codeWrap}
@@ -152,7 +154,7 @@ export function UserSettingsForm() {
                   codeWrap: !codeWrap,
                 })
               }
-              text="Wrap Codeblocks"
+              text={t("Wrap Codeblocks")}
             />
 
             <ToggleSwitch
@@ -162,7 +164,7 @@ export function UserSettingsForm() {
                   showChatScrollbar: !showChatScrollbar,
                 })
               }
-              text="Show Chat Scrollbar"
+              text={t("Show Chat Scrollbar")}
             />
             <ToggleSwitch
               isToggled={readResponseTTS}
@@ -171,7 +173,7 @@ export function UserSettingsForm() {
                   readResponseTTS: !readResponseTTS,
                 })
               }
-              text="Text-to-Speech Output"
+              text={t("Text-to-Speech Output")}
             />
             {/* <ToggleSwitch
                     isToggled={useChromiumForDocsCrawling}
@@ -189,7 +191,7 @@ export function UserSettingsForm() {
                   disableSessionTitles: !disableSessionTitles,
                 })
               }
-              text="Enable Session Titles"
+              text={t("Enable Session Titles")}
             />
             <ToggleSwitch
               isToggled={!displayRawMarkdown}
@@ -198,7 +200,7 @@ export function UserSettingsForm() {
                   displayRawMarkdown: !displayRawMarkdown,
                 })
               }
-              text="Format Markdown"
+              text={t("Format Markdown")}
             />
 
             <ToggleSwitch
@@ -208,7 +210,7 @@ export function UserSettingsForm() {
                   allowAnonymousTelemetry: !allowAnonymousTelemetry,
                 })
               }
-              text="Allow Anonymous Telemetry"
+              text={t("Allow Anonymous Telemetry")}
             />
 
             <ToggleSwitch
@@ -218,7 +220,7 @@ export function UserSettingsForm() {
                   disableIndexing: !disableIndexing,
                 })
               }
-              text="Enable Indexing"
+              text={t("Enable Indexing")}
             />
 
             {/* <ToggleSwitch
@@ -232,7 +234,7 @@ export function UserSettingsForm() {
                   /> */}
 
             <label className="flex items-center justify-between gap-3">
-              <span className="text-left">Font Size</span>
+              <span className="text-left">{t("Font Size")}</span>
               <NumberInput
                 value={fontSize}
                 onChange={(val) => {
@@ -247,7 +249,7 @@ export function UserSettingsForm() {
             </label>
             <label className="flex items-center justify-between gap-3">
               <span className="lines lines-1 text-left">
-                Multiline Autocompletions
+                {t("Multiline Autocompletions")}
               </span>
               <Select
                 value={useAutocompleteMultilineCompletions}
@@ -260,13 +262,15 @@ export function UserSettingsForm() {
                   })
                 }
               >
-                <option value="auto">Auto</option>
-                <option value="always">Always</option>
-                <option value="never">Never</option>
+                <option value="auto">{t("Auto")}</option>
+                <option value="always">{t("Always")}</option>
+                <option value="never">{t("Never")}</option>
               </Select>
             </label>
             <label className="flex items-center justify-between gap-3">
-              <span className="text-left">Autocomplete Timeout (ms)</span>
+              <span className="text-left">
+                {t("Autocomplete Timeout (ms)")}
+              </span>
               <NumberInput
                 value={modelTimeout}
                 onChange={(val) =>
@@ -279,7 +283,9 @@ export function UserSettingsForm() {
               />
             </label>
             <label className="flex items-center justify-between gap-3">
-              <span className="text-left">Autocomplete Debounce (ms)</span>
+              <span className="text-left">
+                {t("Autocomplete Debounce (ms)")}
+              </span>
               <NumberInput
                 value={debounceDelay}
                 onChange={(val) =>
@@ -299,7 +305,7 @@ export function UserSettingsForm() {
               }}
             >
               <div className="flex items-center justify-between">
-                <span>Disable autocomplete in files</span>
+                <span>{t("Disable autocomplete in files")}</span>
                 <div className="flex items-center gap-2">
                   <Input
                     value={formDisableAutocomplete}
@@ -333,7 +339,7 @@ export function UserSettingsForm() {
                 </div>
               </div>
               <span className="text-vsc-foreground-muted text-lightgray self-end text-xs">
-                Comma-separated list of path matchers
+                {t("Comma-separated list of path matchers")}
               </span>
             </form>
           </div>
@@ -348,7 +354,7 @@ export function UserSettingsForm() {
                   showExperimental ? "rotate-90" : ""
                 }`}
               />
-              <span>Experimental Settings</span>
+              <span>{t("Experimental Settings")}</span>
             </div>
             <div
               className={`duration-400 overflow-hidden transition-all ease-in-out ${
@@ -363,7 +369,7 @@ export function UserSettingsForm() {
                       autoAcceptEditToolDiffs: !autoAcceptEditToolDiffs,
                     })
                   }
-                  text="Auto-Accept Agent Edits"
+                  text={t("Auto-Accept Agent Edits")}
                   showIfToggled={
                     <>
                       <ExclamationTriangleIcon
@@ -371,7 +377,9 @@ export function UserSettingsForm() {
                         className="h-3 w-3 text-yellow-500"
                       />
                       <ToolTip id={`auto-accept-diffs-warning-tooltip`}>
-                        {`Be very careful with this setting. When turned on, Agent mode's edit tool can make changes to files with no manual review or guaranteed stopping point`}
+                        {t(
+                          "Be very careful with this setting. When turned on, Agent mode's edit tool can make changes to files with no manual review or guaranteed stopping point",
+                        )}
                       </ToolTip>
                     </>
                   }
@@ -384,7 +392,7 @@ export function UserSettingsForm() {
                       useCurrentFileAsContext: !useCurrentFileAsContext,
                     })
                   }
-                  text="Add Current File by Default"
+                  text={t("Add Current File by Default")}
                 />
               </div>
             </div>

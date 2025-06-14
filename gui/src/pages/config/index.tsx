@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageHeader } from "../../components/PageHeader";
 import { useNavigationListener } from "../../hooks/useNavigationListener";
+import { useTranslation } from "../../i18n/I18nContext";
 import { fontSize } from "../../util";
 import { AccountButton } from "./AccountButton";
 import { HelpCenterSection } from "./HelpCenterSection";
@@ -23,6 +24,7 @@ type TabOption = {
 };
 
 function ConfigPage() {
+  const { t } = useTranslation();
   useNavigationListener();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("settings");
@@ -30,19 +32,19 @@ function ConfigPage() {
   const tabs: TabOption[] = [
     {
       id: "settings",
-      label: "Settings",
+      label: t("Settings"),
       component: <UserSettingsForm />,
       icon: <Cog6ToothIcon className="xs:h-4 xs:w-4 h-3 w-3 flex-shrink-0" />,
     },
     {
       id: "indexing",
-      label: "Indexing",
+      label: t("Indexing"),
       component: <IndexingSettingsSection />,
       icon: <CircleStackIcon className="xs:h-4 xs:w-4 h-3 w-3 flex-shrink-0" />,
     },
     {
       id: "help",
-      label: "Help",
+      label: t("Help"),
       component: <HelpCenterSection />,
       icon: (
         <QuestionMarkCircleIcon className="xs:h-4 xs:w-4 h-3 w-3 flex-shrink-0" />
@@ -50,7 +52,7 @@ function ConfigPage() {
     },
     {
       id: "shortcuts",
-      label: "Shortcuts",
+      label: t("Shortcuts"),
       component: <KeyboardShortcuts />,
       icon: <BoltIcon className="xs:h-4 xs:w-4 h-3 w-3 flex-shrink-0" />,
     },
@@ -62,7 +64,7 @@ function ConfigPage() {
         <PageHeader
           showBorder
           onTitleClick={() => navigate("/")}
-          title="Chat"
+          title={t("Chat")}
           rightContent={<AccountButton />}
         />
 

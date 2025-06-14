@@ -1,6 +1,7 @@
 import { BarsArrowDownIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { ChatHistoryItem } from "core";
 import { renderChatMessage } from "core/util/messageContent";
+import { useTranslation } from "../../i18n/I18nContext";
 import FeedbackButtons from "../FeedbackButtons";
 import { CopyIconButton } from "../gui/CopyIconButton";
 import HeaderButtonWithToolTip from "../gui/HeaderButtonWithToolTip";
@@ -20,12 +21,14 @@ export default function ResponseActions({
   isTruncated,
   onDelete,
 }: ResponseActionsProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="mx-2 flex cursor-default items-center justify-end space-x-1 bg-transparent pb-0 text-xs text-gray-400">
       {isTruncated && (
         <HeaderButtonWithToolTip
           tabIndex={-1}
-          text="Continue generation"
+          text={t("Continue generation")}
           onClick={onContinueGeneration}
         >
           <BarsArrowDownIcon className="h-3.5 w-3.5 text-gray-500" />
@@ -34,7 +37,7 @@ export default function ResponseActions({
 
       <HeaderButtonWithToolTip
         testId={`delete-button-${index}`}
-        text="Delete"
+        text={t("Delete")}
         tabIndex={-1}
         onClick={onDelete}
       >

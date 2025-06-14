@@ -5,6 +5,7 @@ import { useContext, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Input, SecondaryButton } from "..";
 import { IdeMessengerContext } from "../../context/IdeMessenger";
+import { useTranslation } from "../../i18n/I18nContext";
 import { useAppSelector } from "../../redux/hooks";
 import { updateIndexingStatus } from "../../redux/slices/indexingSlice";
 import { setDialogMessage, setShowDialog } from "../../redux/slices/uiSlice";
@@ -12,6 +13,7 @@ import { ToolTip } from "../gui/Tooltip";
 import DocsIndexingPeeks from "../mainInput/Lump/sections/docs/DocsIndexingPeeks";
 
 function AddDocsDialog() {
+  const { t } = useTranslation();
   const posthog = usePostHog();
   const dispatch = useDispatch();
 
@@ -69,7 +71,7 @@ function AddDocsDialog() {
     dispatch(
       updateIndexingStatus({
         type: "docs",
-        description: "Initializing",
+        description: t("Initializing"),
         id: startUrl,
         progress: 0,
         status: "indexing",
@@ -82,32 +84,33 @@ function AddDocsDialog() {
   return (
     <div className="px-2 pt-4 sm:px-4">
       <div className="">
-        <h1 className="mb-0 hidden sm:block">Add documentation</h1>
-        <h1 className="sm:hidden">Add docs</h1>
+        <h1 className="mb-0 hidden sm:block">{t("Add documentation")}</h1>
+        <h1 className="sm:hidden">{t("Add docs")}</h1>
         <p className="m-0 mt-2 p-0 text-stone-500">
-          Common documentation sites are cached for faster loading
+          {t("Common documentation sites are cached for faster loading")}
         </p>
         <div className="mt-3">
           <form onSubmit={onSubmit} className="flex flex-col gap-1">
             <div className="flex flex-col gap-2">
               <label className="flex w-full flex-col gap-1">
                 <div className="flex flex-row items-center gap-1">
-                  <span>Title</span>
+                  <span>{t("Title")}</span>
                   <div>
                     <InformationCircleIcon
                       data-tooltip-id={"add-docs-form-title"}
                       className="text-lightgray h-3.5 w-3.5 select-none"
                     />
                     <ToolTip id={"add-docs-form-title"} place="top">
-                      The title that will be displayed to users in the `@docs`
-                      submenu
+                      {t(
+                        "The title that will be displayed to users in the `@docs` submenu",
+                      )}
                     </ToolTip>
                   </div>
                 </div>
 
                 <Input
                   type="text"
-                  placeholder="Title"
+                  placeholder={t("Title")}
                   value={title}
                   ref={titleRef}
                   onChange={(e) => setTitle(e.target.value)}
@@ -117,7 +120,7 @@ function AddDocsDialog() {
               <label className="flex w-full flex-col gap-1">
                 <div className="flex flex-row items-center gap-1">
                   <span className="line-clamp-1 whitespace-nowrap">
-                    Start URL
+                    {t("Start URL")}
                   </span>
                   <div>
                     <InformationCircleIcon
@@ -125,15 +128,16 @@ function AddDocsDialog() {
                       className="text-lightgray h-3.5 w-3.5 select-none"
                     />
                     <ToolTip id={"add-docs-form-url"} place="top">
-                      The starting location to begin crawling the documentation
-                      site
+                      {t(
+                        "The starting location to begin crawling the documentation site",
+                      )}
                     </ToolTip>
                   </div>
                 </div>
                 <Input
                   ref={urlRef}
                   type="url"
-                  placeholder="Start URL"
+                  placeholder={t("Start URL")}
                   value={startUrl}
                   onChange={(e) => {
                     setStartUrl(e.target.value);
@@ -147,7 +151,7 @@ function AddDocsDialog() {
                 disabled={!isFormValid}
                 type="submit"
               >
-                Add
+                {t("Add")}
               </SecondaryButton>
             </div>
           </form>
@@ -158,7 +162,7 @@ function AddDocsDialog() {
         <>
           <DocsIndexingPeeks statuses={docsIndexingStatuses} />
           <p className="mt-2 flex flex-row items-center gap-1 p-0 px-1 text-center text-xs text-stone-500">
-            Closing this dialog will not affect indexing progress
+            {t("Closing this dialog will not affect indexing progress")}
           </p>
         </>
       )}

@@ -25,6 +25,7 @@ import {
   vscQuickInputBackground,
 } from "../..";
 import { IdeMessengerContext } from "../../../context/IdeMessenger";
+import { useTranslation } from "../../../i18n/I18nContext";
 import { setDialogMessage, setShowDialog } from "../../../redux/slices/uiSlice";
 import { fontSize } from "../../../util";
 import FileIcon from "../../FileIcon";
@@ -156,6 +157,7 @@ const formatFileSize = (fileSize: number) => {
 };
 
 const AtMentionDropdown = forwardRef((props: AtMentionDropdownProps, ref) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const ideMessenger = useContext(IdeMessengerContext);
@@ -256,9 +258,9 @@ const AtMentionDropdown = forwardRef((props: AtMentionDropdownProps, ref) => {
 
   useEffect(() => {
     const items = [...props.items];
-    if (subMenuTitle === "Type to search docs") {
+    if (subMenuTitle === t("Type to search docs")) {
       items.push({
-        title: "Add Docs",
+        title: t("Add Docs"),
         type: "action",
         action: () => {
           dispatch(setShowDialog(true));
@@ -276,7 +278,7 @@ const AtMentionDropdown = forwardRef((props: AtMentionDropdownProps, ref) => {
       });
     } else if (subMenuTitle === ".prompt files") {
       items.push({
-        title: "New .prompt file",
+        title: t("New .prompt file"),
         type: "action",
         action: () => {
           ideMessenger.post("config/newPromptFile", undefined);
@@ -290,11 +292,11 @@ const AtMentionDropdown = forwardRef((props: AtMentionDropdownProps, ref) => {
           }
           props.onClose(); // Escape the mention list after creating a new prompt file
         },
-        description: "Create a new .prompt file",
+        description: t("Create a new .prompt file"),
       });
-    } else if (subMenuTitle === "Mention rules files") {
+    } else if (subMenuTitle === t("Mention rules files")) {
       items.push({
-        title: "Add new rule",
+        title: t("Add new rule"),
         type: "action",
         action: () => {
           void ideMessenger.request("config/addLocalWorkspaceBlock", {
@@ -310,12 +312,12 @@ const AtMentionDropdown = forwardRef((props: AtMentionDropdownProps, ref) => {
           }
           props.onClose(); // Escape the mention list after creating a new rule
         },
-        description: "Creates a rule file",
+        description: t("Creates a rule file"),
       });
     }
     setLoadingSubmenuItem(items.find((item) => item.id === "loading"));
     setAllItems(items.filter((item) => item.id !== "loading"));
-  }, [subMenuTitle, props.items, props.editor]);
+  }, [subMenuTitle, props.items, props.editor, t]);
 
   const queryInputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -583,7 +585,9 @@ const AtMentionDropdown = forwardRef((props: AtMentionDropdownProps, ref) => {
               );
             })
           ) : (
-            <ItemDiv className="item whitespace-nowrap">No results</ItemDiv>
+            <ItemDiv className="item whitespace-nowrap">
+              {t("No results")}
+            </ItemDiv>
           )}
         </>
       )}

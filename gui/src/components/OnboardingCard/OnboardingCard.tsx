@@ -1,4 +1,5 @@
 import { OnboardingModes } from "core/protocol/core";
+import { useTranslation } from "../../i18n/I18nContext";
 import { useAppSelector } from "../../redux/hooks";
 import { getLocalStorage, setLocalStorage } from "../../util/localStorage";
 import Alert from "../gui/Alert";
@@ -26,6 +27,7 @@ export function OnboardingCard({
   isDialog,
   showFreeTrialExceededAlert,
 }: OnboardingCardProps) {
+  const { t } = useTranslation();
   const { activeTab, close, setActiveTab } = useOnboardingCard();
   const config = useAppSelector((store) => store.config.config);
 
@@ -57,11 +59,12 @@ export function OnboardingCard({
           <div className="mb-3 mt-4">
             <Alert>
               <h4 className="mb-1 mt-0 text-sm font-semibold">
-                Free trial completed
+                {t("Free trial completed")}
               </h4>
               <span className="text-xs">
-                To keep using Continue, select an option below to setup your
-                models
+                {t(
+                  "To keep using Continue, select an option below to setup your models",
+                )}
               </span>
             </Alert>
           </div>

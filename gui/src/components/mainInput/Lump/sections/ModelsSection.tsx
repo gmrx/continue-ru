@@ -1,12 +1,14 @@
 import { ModelRole } from "@continuedev/config-yaml";
 import { ModelDescription } from "core";
 import { useAuth } from "../../../../context/Auth";
+import { useTranslation } from "../../../../i18n/I18nContext";
 import ModelRoleSelector from "../../../../pages/config/ModelRoleSelector";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { updateSelectedModelByRole } from "../../../../redux/thunks";
 import { isJetBrains } from "../../../../util";
 
 export function ModelsSection() {
+  const { t } = useTranslation();
   const { selectedProfile } = useAuth();
   const dispatch = useAppDispatch();
 
@@ -31,16 +33,16 @@ export function ModelsSection() {
     <div>
       <div className="text-[${getFontSize() - 1}px] grid grid-cols-1 gap-x-2 gap-y-1 sm:grid-cols-[auto_1fr]">
         <ModelRoleSelector
-          displayName="Chat"
-          description="Used in the chat interface"
+          displayName={t("Chat")}
+          description={t("Used in the chat interface")}
           models={config.modelsByRole.chat}
           selectedModel={config.selectedModelByRole.chat}
           onSelect={(model) => handleRoleUpdate("chat", model)}
           setupURL="https://docs.continue.dev/chat/model-setup"
         />
         <ModelRoleSelector
-          displayName="Autocomplete"
-          description="Used to generate code completion suggestions"
+          displayName={t("Autocomplete")}
+          description={t("Used to generate code completion suggestions")}
           models={config.modelsByRole.autocomplete}
           selectedModel={config.selectedModelByRole.autocomplete}
           onSelect={(model) => handleRoleUpdate("autocomplete", model)}
@@ -49,8 +51,8 @@ export function ModelsSection() {
         {/* Jetbrains has a model selector inline */}
         {!jetbrains && (
           <ModelRoleSelector
-            displayName="Edit"
-            description="Used for inline edits"
+            displayName={t("Edit")}
+            description={t("Used for inline edits")}
             models={config.modelsByRole.edit}
             selectedModel={config.selectedModelByRole.edit}
             onSelect={(model) => handleRoleUpdate("edit", model)}
@@ -58,24 +60,28 @@ export function ModelsSection() {
           />
         )}
         <ModelRoleSelector
-          displayName="Apply"
-          description="Used to apply generated codeblocks to files"
+          displayName={t("Apply")}
+          description={t("Used to apply generated codeblocks to files")}
           models={config.modelsByRole.apply}
           selectedModel={config.selectedModelByRole.apply}
           onSelect={(model) => handleRoleUpdate("apply", model)}
           setupURL="https://docs.continue.dev/customize/model-roles/apply"
         />
         <ModelRoleSelector
-          displayName="Embed"
-          description="Used to generate and query embeddings for the @codebase and @docs context providers"
+          displayName={t("Embed")}
+          description={t(
+            "Used to generate and query embeddings for the @codebase and @docs context providers",
+          )}
           models={config.modelsByRole.embed}
           selectedModel={config.selectedModelByRole.embed}
           onSelect={(model) => handleRoleUpdate("embed", model)}
           setupURL="https://docs.continue.dev/customize/model-roles/embeddings"
         />
         <ModelRoleSelector
-          displayName="Rerank"
-          description="Used for reranking results from the @codebase and @docs context providers"
+          displayName={t("Rerank")}
+          description={t(
+            "Used for reranking results from the @codebase and @docs context providers",
+          )}
           models={config.modelsByRole.rerank}
           selectedModel={config.selectedModelByRole.rerank}
           onSelect={(model) => handleRoleUpdate("rerank", model)}

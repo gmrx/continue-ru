@@ -5,6 +5,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { IdeMessengerContext } from "../../../context/IdeMessenger";
 import useIsOSREnabled from "../../../hooks/useIsOSREnabled";
 import useUpdatingRef from "../../../hooks/useUpdatingRef";
+import { useTranslation } from "../../../i18n/I18nContext";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { selectSelectedChatModel } from "../../../redux/slices/configSlice";
 import InputToolbar, { ToolbarOptions } from "../InputToolbar";
@@ -38,6 +39,7 @@ export interface TipTapEditorProps {
 export const TIPPY_DIV_ID = "tippy-js-div";
 
 export function TipTapEditor(props: TipTapEditorProps) {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const mainEditorContext = useMainEditor();
 
@@ -53,6 +55,7 @@ export function TipTapEditor(props: TipTapEditorProps) {
     props,
     ideMessenger,
     dispatch,
+    t: t as (key: string, fallback?: string) => string,
   });
 
   // Register the main editor with the provider
@@ -70,14 +73,18 @@ export function TipTapEditor(props: TipTapEditorProps) {
     if (!editor) {
       return;
     }
-    const placeholder = getPlaceholderText(props.placeholder, historyLength);
+    const placeholder = getPlaceholderText(
+      props.placeholder,
+      historyLength,
+      t as (key: string, fallback?: string) => string,
+    );
 
     editor.extensionManager.extensions.filter(
       (extension) => extension.name === "placeholder",
     )[0].options["placeholder"] = placeholder;
 
     editor.view.dispatch(editor.state.tr);
-  }, [editor, props.placeholder, historyLength]);
+  }, [editor, props.placeholder, historyLength, t]);
 
   useEffect(() => {
     if (props.isMainInput) {

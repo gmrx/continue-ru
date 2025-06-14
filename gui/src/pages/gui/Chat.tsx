@@ -28,6 +28,7 @@ import StepContainer from "../../components/StepContainer";
 import { TabBar } from "../../components/TabBar/TabBar";
 import { IdeMessengerContext } from "../../context/IdeMessenger";
 import { useWebviewListener } from "../../hooks/useWebviewListener";
+import { useTranslation } from "../../i18n/I18nContext";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   selectCurrentToolCall,
@@ -71,6 +72,7 @@ export const MAIN_EDITOR_INPUT_ID = "main-editor-input";
 
 function fallbackRender({ error, resetErrorBoundary }: any) {
   // Call resetErrorBoundary() to reset the error boundary and retry the render.
+  const { t } = useTranslation();
 
   return (
     <div
@@ -78,18 +80,19 @@ function fallbackRender({ error, resetErrorBoundary }: any) {
       className="px-2"
       style={{ backgroundColor: vscBackground }}
     >
-      <p>Something went wrong:</p>
+      <p>{t("Something went wrong:")}</p>
       <pre style={{ color: "red" }}>{error.message}</pre>
       <pre style={{ color: lightGray }}>{error.stack}</pre>
 
       <div className="text-center">
-        <Button onClick={resetErrorBoundary}>Restart</Button>
+        <Button onClick={resetErrorBoundary}>{t("Restart")}</Button>
       </div>
     </div>
   );
 }
 
 export function Chat() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const ideMessenger = useContext(IdeMessengerContext);
   const onboardingCard = useOnboardingCard();
@@ -401,7 +404,7 @@ export function Chat() {
                     className="flex items-center gap-2"
                   >
                     <ArrowLeftIcon className="h-3 w-3" />
-                    <span className="text-xs">Last Session</span>
+                    <span className="text-xs">{t("Last Session")}</span>
                   </NewSessionButton>
                 </div>
               )}

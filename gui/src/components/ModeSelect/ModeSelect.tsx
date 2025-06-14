@@ -2,6 +2,7 @@ import { CheckIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { MessageModes } from "core";
 import { modelSupportsTools } from "core/llm/autodetect";
 import { useCallback, useEffect, useMemo } from "react";
+import { useTranslation } from "../../i18n/I18nContext";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { selectSelectedChatModel } from "../../redux/slices/configSlice";
 import { setMode } from "../../redux/slices/sessionSlice";
@@ -16,6 +17,7 @@ import {
 import { ModeIcon } from "./ModeIcon";
 
 export function ModeSelect() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const mode = useAppSelector((store) => store.session.mode);
   const selectedModel = useAppSelector(selectSelectedChatModel);
@@ -76,7 +78,7 @@ export function ModeSelect() {
         >
           <ModeIcon mode={mode} />
           <span className="hidden sm:block">
-            {mode.charAt(0).toUpperCase() + mode.slice(1)}
+            {t((mode.charAt(0).toUpperCase() + mode.slice(1)) as any)}
           </span>
           <ChevronDownIcon
             className="h-2 w-2 flex-shrink-0"
@@ -87,7 +89,7 @@ export function ModeSelect() {
           <ListboxOption value="chat">
             <div className="flex flex-row items-center gap-1.5">
               <ModeIcon mode="chat" />
-              <span className="">Chat</span>
+              <span className="">{t("Chat")}</span>
               <span
                 className={`text-description-muted text-[${getFontSize() - 3}px] mr-auto`}
               >
@@ -104,17 +106,17 @@ export function ModeSelect() {
           >
             <div className="flex flex-row items-center gap-1.5">
               <ModeIcon mode="agent" />
-              <span className="">Agent</span>
+              <span className="">{t("Agent")}</span>
             </div>
             {agentModeSupported ? (
               mode === "agent" && <CheckIcon className="ml-auto h-3 w-3" />
             ) : (
-              <span>(Not supported)</span>
+              <span>({t("Not supported")})</span>
             )}
           </ListboxOption>
 
           <div className="text-description-muted px-2 py-1">
-            {`${metaKeyLabel} . for next mode`}
+            {`${metaKeyLabel} . ${t("for next mode")}`}
           </div>
         </ListboxOptions>
       </div>

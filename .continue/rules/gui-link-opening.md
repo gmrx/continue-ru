@@ -1,7 +1,6 @@
 ---
 globs: gui/**/*
-description: Ensures consistent URL opening behavior in GUI components using the
-  IDE messenger pattern
+description: Ensures consistent URL opening behavior in GUI components using the IDE messenger pattern
 alwaysApply: false
 ---
 

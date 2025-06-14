@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "..";
 import { IdeMessengerContext } from "../../context/IdeMessenger";
+import { useTranslation } from "../../i18n/I18nContext";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { exitEdit } from "../../redux/thunks/edit";
 import {
@@ -24,6 +25,7 @@ export function HistoryTableRow({
   date: Date;
   index: number;
 }) {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const ideMessenger = useContext(IdeMessengerContext);
@@ -121,7 +123,7 @@ export function HistoryTableRow({
       {hovered && !editing && (
         <div className="bg-vsc-background absolute right-2 top-1/2 ml-auto flex -translate-y-1/2 transform items-center gap-x-2 rounded-full py-1.5 pl-4 pr-4 shadow-md">
           <HeaderButtonWithToolTip
-            text="Edit"
+            text={t("Edit")}
             onClick={async (e) => {
               e.stopPropagation();
               setEditing(true);
@@ -130,7 +132,7 @@ export function HistoryTableRow({
             <PencilSquareIcon width="1.3em" height="1.3em" />
           </HeaderButtonWithToolTip>
           <HeaderButtonWithToolTip
-            text="Delete"
+            text={t("Delete")}
             onClick={async (e) => {
               e.stopPropagation();
               await dispatch(deleteSession(sessionMetadata.sessionId));

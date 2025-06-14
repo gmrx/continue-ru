@@ -3,6 +3,7 @@ import { ContextItemWithId, InputModifiers, RuleWithSource } from "core";
 import { useMemo } from "react";
 import styled, { keyframes } from "styled-components";
 import { defaultBorderRadius, vscBackground } from "..";
+import { useTranslation } from "../../i18n/I18nContext";
 import { useAppSelector } from "../../redux/hooks";
 import { selectSlashCommandComboBoxInputs } from "../../redux/selectors";
 import { ContextItemsPeek } from "./belowMainInput/ContextItemsPeek";
@@ -76,6 +77,7 @@ const GradientBorder = styled.div<{
 `;
 
 function ContinueInputBox(props: ContinueInputBoxProps) {
+  const { t } = useTranslation();
   const isStreaming = useAppSelector((state) => state.session.isStreaming);
   const availableSlashCommands = useAppSelector(
     selectSlashCommandComboBoxInputs,
@@ -104,7 +106,7 @@ function ContinueInputBox(props: ContinueInputBoxProps) {
   }, [availableContextProviders, isInEdit]);
 
   const historyKey = isInEdit ? "edit" : "chat";
-  const placeholder = isInEdit ? "Edit selected code" : undefined;
+  const placeholder = isInEdit ? t("Edit selected code") : undefined;
 
   const toolbarOptions: ToolbarOptions = isInEdit
     ? {

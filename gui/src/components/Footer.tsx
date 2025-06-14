@@ -1,5 +1,6 @@
 import { useAppSelector } from "../redux/hooks";
 import { selectSelectedChatModel } from "../redux/slices/configSlice";
+import { LanguageSelector } from "./LanguageSelector";
 
 function Footer() {
   const defaultModel = useAppSelector(selectSelectedChatModel);
@@ -15,7 +16,13 @@ function Footer() {
   //     </footer>
   //   );
   // }
-  return null;
+
+  return (
+    <footer className="flex flex-row items-center justify-between border-0 border-t border-solid border-t-zinc-700 px-2 py-1">
+      <div className="flex-1"></div>
+      <LanguageSelector className="text-xs" />
+    </footer>
+  );
 }
 
 export default Footer;

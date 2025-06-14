@@ -3,6 +3,7 @@ import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { defaultBorderRadius } from "..";
+import { useTranslation } from "../../i18n/I18nContext";
 import { newSession } from "../../redux/slices/sessionSlice";
 import {
   addTab,
@@ -128,6 +129,7 @@ const TabBarSpace = styled.div`
 `;
 
 export const TabBar = React.forwardRef<HTMLDivElement>((_, ref) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const currentSessionId = useSelector((state: RootState) => state.session.id);
   const currentSessionTitle = useSelector(
@@ -168,7 +170,7 @@ export const TabBar = React.forwardRef<HTMLDivElement>((_, ref) => {
     dispatch(
       addTab({
         id: generateId(),
-        title: `Chat ${tabs.length + 1}`,
+        title: `${t("Chat")} ${tabs.length + 1}`,
         isActive: true,
         sessionId: undefined,
       }),

@@ -12,6 +12,7 @@ import {
   useState,
 } from "react";
 import { HeaderButton, Input } from "..";
+import { useTranslation } from "../../i18n/I18nContext";
 import HeaderButtonWithToolTip from "../gui/HeaderButtonWithToolTip";
 import {
   Rectangle,
@@ -60,6 +61,8 @@ export const useFindWidget = (
   headerRef: RefObject<HTMLDivElement>,
   disabled: boolean,
 ) => {
+  const { t } = useTranslation();
+
   // Search input, debounced
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentValue, setCurrentValue] = useState<string>("");
@@ -225,7 +228,7 @@ export const useFindWidget = (
         onChange={(e) => {
           setCurrentValue(e.target.value);
         }}
-        placeholder="Search..."
+        placeholder={t("Search...")}
       />
       <p className="xs:block hidden min-w-12 whitespace-nowrap px-1 text-center text-xs">
         {matches.length === 0
